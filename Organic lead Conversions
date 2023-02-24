@@ -1,0 +1,23 @@
+SELECT
+co.name AS comapany_name 
+,ls.name AS source_name 
+,DATE_TRUNC('day',e.created_at) AS Datestamp
+,e.id 
+,e.status 
+,e.ms_job_id 
+,COUNT(e.customer_id) 
+
+FROM public.estimate_appointments e 
+JOIN public.schedule_blocks b on e.id = b.schedulable_id
+JOIN public.customers c on e.customer_id = c.id
+JOIN public.companies co on c.company_id = co.id 
+LEFT JOIN public.jobs j on j.customer_id = c.id 
+LEFT JOIN public.leads l on l.id=c.lead_id
+LEFT JOIN public.lead_sources ls on l.lead_source_id=ls.id
+
+Where 
+ls.ppql_chargeable = FALSE 
+
+Group BY 1,2,3,4,5,6
+
+ORDER BY 3 DESC
