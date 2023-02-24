@@ -1,0 +1,15 @@
+-- This 
+
+SELECT 
+DATE_TRUNC('day',l.created_at) AS Datestamp
+,c.name AS Company_name
+,s.name as lead_source 
+,l.channel
+,COUNT (distinct l.id) as total_leads
+
+FROM public.leads l join public.lead_sources s on l.lead_source_id=s.id LEFT JOIN public.companies c on l.company_id=c.id
+
+WHERE 
+ s.ppql_chargeable = FALSE
+GROUP BY 1,2,3,4
+ORDER BY 1 DESC
