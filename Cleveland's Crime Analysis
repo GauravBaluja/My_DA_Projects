@@ -1,0 +1,10 @@
+SELECT PARSE_DATE('%Y-%m', Month) AS Month
+,Crime_type
+,LTRIM(Location,'On or near') As Location
+,Latitude
+,Longitude
+,COUNT(*) AS No_of_Crimes
+,Falls_within
+ 
+ GROUP BY 1,2,3,4,5 HAVING Falls_within = 'Cleveland Police'
+ FROM `my-practice-project-349915.allcrimes.allcrimes`
